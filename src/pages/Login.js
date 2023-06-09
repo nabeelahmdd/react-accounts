@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions/userActions";
 function Login() {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { error, userInfo, loading } = userLogin;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -17,8 +23,16 @@ function Login() {
     const dataForm = {};
     dataForm.email = email;
     dataForm.password = password;
-    console.log(dataForm, "dataForm");
+    dispatch(login(dataForm));
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      console.log(userInfo, "userInfo");
+    } else if (error) {
+      console.log(error, "error");
+    }
+  }, [userInfo, error]);
   return (
     <Container fluid>
       <div className="row mt-5">
