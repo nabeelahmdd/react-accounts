@@ -1,12 +1,15 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import { LinkContainer } from "react-router-bootstrap";
 
 function Header() {
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <LinkContainer to="/">
+          <Navbar.Brand>React-Bootstrap</Navbar.Brand>
+        </LinkContainer>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
@@ -15,8 +18,12 @@ function Header() {
             <Nav.Link href="#contact-us">Contact us</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link href="#register">Register</Nav.Link>
-            <Nav.Link href="#login">Login</Nav.Link>
+            <LinkContainer to="/regiser">
+              <Nav.Link>Register</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/login">
+              <Nav.Link>Login</Nav.Link>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Container>

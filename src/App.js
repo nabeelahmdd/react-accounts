@@ -1,11 +1,19 @@
-import './App.css';
-import Button from 'react-bootstrap/Button';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Header from "./component/Header";
+import Register from "./pages/Register";
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello World</h1>
-    </>
-    
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
