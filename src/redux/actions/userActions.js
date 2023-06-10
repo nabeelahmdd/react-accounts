@@ -3,6 +3,7 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
+  USER_LOGOUT,
 } from "../constants/userConstants";
 import { toast } from "react-toastify";
 
@@ -42,4 +43,10 @@ export const login = (dataForm) => async (dispatch) => {
     });
     toast.error(errorMessage);
   }
+};
+
+export const logout = () => (dispatch) => {
+  localStorage.removeItem("userInfo");
+  dispatch({ type: USER_LOGOUT });
+  toast.success("Logout Successfully!");
 };

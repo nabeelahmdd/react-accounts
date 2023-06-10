@@ -1,12 +1,23 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
+import { logout } from "../redux/actions/userActions";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const logutHandler = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
@@ -24,7 +35,7 @@ function Header() {
             {userInfo ? (
               <>
                 <Nav.Link>My Account</Nav.Link>
-                <Nav.Link>Logout</Nav.Link>
+                <Nav.Link onClick={logutHandler}>Logout</Nav.Link>
               </>
             ) : (
               <>
