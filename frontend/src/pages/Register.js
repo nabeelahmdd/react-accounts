@@ -1,8 +1,19 @@
-import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../redux/actions/userActions";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Register() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  const dispatch = useDispatch();
+  const userRegister = useSelector((state) => state.userRegister);
+  const { error, userInfo, loading } = userRegister;
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,8 +35,14 @@ function Register() {
     dataForm.email = email;
     dataForm.phone_number = phoneNumber;
     dataForm.password = password;
-    console.log(dataForm);
+    dispatch(register(dataForm));
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [userInfo, navigate, redirect]);
   return (
     <Container className="mt-5">
       <Form onSubmit={submitHandler}>

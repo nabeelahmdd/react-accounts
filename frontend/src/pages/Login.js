@@ -35,10 +35,8 @@ function Login() {
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
-    } else if (error) {
-      console.log(error, "error");
     }
-  }, [userInfo, error, navigate, redirect]);
+  }, [userInfo, navigate, redirect]);
   return (
     <Container className="mt-5">
       <Form onSubmit={submitHandler}>
