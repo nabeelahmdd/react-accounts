@@ -3,8 +3,13 @@ import { Container, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Login() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { error, userInfo, loading } = userLogin;
@@ -29,11 +34,11 @@ function Login() {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo, "userInfo");
+      navigate(redirect);
     } else if (error) {
       console.log(error, "error");
     }
-  }, [userInfo, error]);
+  }, [userInfo, error, navigate, redirect]);
   return (
     <Container fluid>
       <div className="row mt-5">
