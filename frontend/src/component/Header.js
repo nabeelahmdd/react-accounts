@@ -39,7 +39,7 @@ function Header() {
               </>
             ) : (
               <>
-                <LinkContainer to="/regiser">
+                <LinkContainer to="/register">
                   <Nav.Link>Register</Nav.Link>
                 </LinkContainer>
                 <LinkContainer to="/login">
