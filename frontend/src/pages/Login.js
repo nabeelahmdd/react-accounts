@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
@@ -40,37 +40,30 @@ function Login() {
     }
   }, [userInfo, error, navigate, redirect]);
   return (
-    <Container fluid>
-      <div className="row mt-5">
-        <div className="col-md-6 offset-md-3">
-          <form onSubmit={submitHandler}>
-            <div className="mb-3">
-              <label className="form-label">Email address</label>
-              <input
+    <Container className="mt-5">
+      <Form onSubmit={submitHandler}>
+        <Row>
+          <Col md={{ span: 6, offset: 3 }}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
                 type="email"
-                className="form-control"
-                name="email"
-                required
-                placeholder="Enter Email"
+                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <div id="emailHelp" className="form-text">
-                We'll never share your email with anyone else.
-              </div>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password</label>
-              <input
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
                 type={passwordVisible ? "text" : "password"}
-                className="form-control"
-                name="password"
-                required
-                placeholder="Enter Password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                required={true}
               />
               <i
                 onClick={togglePassword}
@@ -78,32 +71,29 @@ function Login() {
                   eye ? "fa-eye-slash" : "fa-eye"
                 } password-view`}
               ></i>
-            </div>
+            </Form.Group>
             <PasswordStrengthBar password={password} />
-            <div className="mb-3 form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="exampleCheck1"
-              />
-              <label className="form-check-label">Remember me</label>
-            </div>
+
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Remember me" />
+            </Form.Group>
             <div className="d-grid gap-2">
-              <button
+              <Button
+                variant="dark"
+                size="lg"
                 type="submit"
-                className="btn btn-lg btn-secondary"
                 disabled={loading ? true : false}
               >
                 {loading ? (
-                  <Spinner animation="grow" variant="dark" />
+                  <Spinner animation="border" variant="secondary" />
                 ) : (
                   "Login"
                 )}
-              </button>
+              </Button>
             </div>
-          </form>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Form>
     </Container>
   );
 }
