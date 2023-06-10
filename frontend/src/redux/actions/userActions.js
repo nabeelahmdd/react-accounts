@@ -7,6 +7,14 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_RESET,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_PROFILE_RESET,
 } from "../constants/userConstants";
 import { toast } from "react-toastify";
 import { getErrors } from "../../helpers/reduxHelper";
@@ -86,6 +94,81 @@ export const register = (dataForm) => async (dispatch) => {
     let errorMessage = getErrors(error);
     dispatch({
       type: USER_REGISTER_FAIL,
+      payload: errorMessage,
+    });
+    toast.error(errorMessage);
+  }
+};
+
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_DETAILS_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState(); // get user info from userLogin state
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_ENDPOINT}/custom/user-detail/`,
+      config
+    );
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    let errorMessage = getErrors(error);
+    dispatch({
+      type: USER_DETAILS_FAIL,
+      payload: errorMessage,
+    });
+  }
+};
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_PROFILE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_ENDPOINT}/custom/user-detail/`,
+      user,
+      config
+    );
+
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: data,
+    });
+
+    dispatch(getUserDetails("profile"));
+    toast.success("Update Profile Successfully!");
+  } catch (error) {
+    let errorMessage = getErrors(error);
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
       payload: errorMessage,
     });
     toast.error(errorMessage);

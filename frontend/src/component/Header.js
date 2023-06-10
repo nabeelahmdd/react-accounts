@@ -34,7 +34,9 @@ function Header() {
           <Nav>
             {userInfo ? (
               <>
-                <Nav.Link>My Account</Nav.Link>
+                <LinkContainer to="/profile">
+                  <Nav.Link>My Account</Nav.Link>
+                </LinkContainer>
                 <Nav.Link onClick={logutHandler}>Logout</Nav.Link>
               </>
             ) : (
