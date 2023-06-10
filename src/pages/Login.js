@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
+
 function Login() {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
@@ -83,8 +84,16 @@ function Login() {
               <label className="form-check-label">Remember me</label>
             </div>
             <div className="d-grid gap-2">
-              <button type="submit" className="btn btn-lg btn-secondary">
-                Login
+              <button
+                type="submit"
+                className="btn btn-lg btn-secondary"
+                disabled={loading ? true : false}
+              >
+                {loading ? (
+                  <Spinner animation="grow" variant="dark" />
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
           </form>
