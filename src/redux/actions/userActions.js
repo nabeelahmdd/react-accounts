@@ -20,7 +20,7 @@ export const login = (dataForm) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `${process.env.API_ENDPOINT}/custom/accounts/login/`,
+      `${process.env.REACT_APP_API_ENDPOINT}/custom/accounts/login/`,
       dataForm,
       config
     );
