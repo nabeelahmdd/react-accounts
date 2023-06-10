@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 // Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "react-toastify/dist/ReactToastify.css";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { save, load } from "redux-localstorage-simple";

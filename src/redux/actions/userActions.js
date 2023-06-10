@@ -4,6 +4,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
 } from "../constants/userConstants";
+import { toast } from "react-toastify";
 
 export const login = (dataForm) => async (dispatch) => {
   try {
@@ -29,13 +30,16 @@ export const login = (dataForm) => async (dispatch) => {
     });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
+    toast.success("Login Successfully!");
   } catch (error) {
+    const errorMessage =
+      error.response && error.response.data.detail
+        ? error.response.data.detail
+        : error.message;
     dispatch({
       type: USER_LOGIN_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.response.data.detail
-          : error.message,
+      payload: errorMessage,
     });
+    toast.error(errorMessage);
   }
 };
