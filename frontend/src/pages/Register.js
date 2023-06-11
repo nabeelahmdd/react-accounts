@@ -12,7 +12,7 @@ function Register() {
 
   const dispatch = useDispatch();
   const userRegister = useSelector((state) => state.userRegister);
-  const { error, userInfo, loading } = userRegister;
+  const { userInfo, loading } = userRegister;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -120,8 +120,16 @@ function Register() {
             </Form.Group>
             <PasswordStrengthBar password={password} />
             <div className="d-grid gap-2">
-              <Button variant="dark" type="submit">
-                Register
+              <Button
+                variant="dark"
+                type="submit"
+                disabled={loading ? true : false}
+              >
+                {loading ? (
+                  <Spinner animation="border" variant="secondary" />
+                ) : (
+                  "Register"
+                )}
               </Button>
             </div>
           </Col>

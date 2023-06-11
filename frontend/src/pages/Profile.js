@@ -9,7 +9,7 @@ import {
 function Profile() {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
-  const { error, user, loading } = userDetails;
+  const { user, loading } = userDetails;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -111,8 +111,16 @@ function Profile() {
           </Col>
           <Col className="col-md-6 offset-md-3">
             <div className="d-grid gap-2">
-              <Button variant="dark" type="submit">
-                Update Profile
+              <Button
+                variant="dark"
+                type="submit"
+                disabled={loading ? true : false}
+              >
+                {loading ? (
+                  <Spinner animation="border" variant="secondary" />
+                ) : (
+                  "Update Profile"
+                )}
               </Button>
             </div>
           </Col>
