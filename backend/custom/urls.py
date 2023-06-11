@@ -1,4 +1,3 @@
-from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from custom.views.user_views import (
     MyTokenObtainPairView, RegisterViewSet,
