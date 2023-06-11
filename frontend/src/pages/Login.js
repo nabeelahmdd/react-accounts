@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Nav,
+} from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 function Login() {
   const location = useLocation();
@@ -12,7 +21,7 @@ function Login() {
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
-  const { error, userInfo, loading } = userLogin;
+  const { userInfo, loading } = userLogin;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -93,6 +102,18 @@ function Login() {
           </Col>
         </Row>
       </Form>
+      <Row>
+        <Col className="col-md-4 offset-md-3 mt-2">
+          <LinkContainer className="text-dark" to="/password-reset">
+            <Nav.Link>Forgot password?</Nav.Link>
+          </LinkContainer>
+        </Col>
+        <Col className="col-md-4 ms-5 mt-2">
+          <LinkContainer className="text-dark" to="/register">
+            <Nav.Link>Don't have a account?</Nav.Link>
+          </LinkContainer>
+        </Col>
+      </Row>
     </Container>
   );
 }

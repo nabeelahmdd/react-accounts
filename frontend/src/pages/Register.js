@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Spinner,
+  Nav,
+} from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 function Register() {
   const location = useLocation();
@@ -135,6 +144,14 @@ function Register() {
           </Col>
         </Row>
       </Form>
+      <Row>
+        <Col className="col-md-4 offset-md-3 mt-2">
+          <LinkContainer className="text-dark" to="/login">
+            <Nav.Link>Already have an account?</Nav.Link>
+          </LinkContainer>
+        </Col>
+        <Col className="col-md-4 ms-5 mt-2"></Col>
+      </Row>
     </Container>
   );
 }
