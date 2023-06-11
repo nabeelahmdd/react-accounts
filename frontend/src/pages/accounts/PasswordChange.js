@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
-import { changePasswordAction } from "../redux/actions/userActions";
+import { changePasswordAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
-import { PASSWORD_CHANGE_RESET } from "../redux/constants/userConstants";
+import { PASSWORD_CHANGE_RESET } from "../../redux/constants/userConstants";
 
 function PasswordChange() {
   const navigate = useNavigate();

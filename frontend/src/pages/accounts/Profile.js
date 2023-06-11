@@ -6,54 +6,65 @@ import {
   Form,
   Button,
   Spinner,
-  Nav,
+  Image,
 } from "react-bootstrap";
-import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../redux/actions/userActions";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import {
+  getUserDetails,
+  updateUserProfile,
+} from "../../redux/actions/userActions";
+import userImage from "../../assets/images/user.png";
 
-function Register() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const redirect = location.search ? location.search.split("=")[1] : "/";
-
+function Profile() {
   const dispatch = useDispatch();
-  const userRegister = useSelector((state) => state.userRegister);
-  const { userInfo, loading } = userRegister;
+  const userDetails = useSelector((state) => state.userDetails);
+  const { user, loading } = userDetails;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [eye, setEye] = useState(true);
-
-  const togglePassword = () => {
-    setPasswordVisible(!passwordVisible);
-    setEye(!eye);
-  };
+  const [gender, setGender] = useState("");
+  const [image, setImage] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const dataForm = {};
-    dataForm.first_name = firstName;
-    dataForm.last_name = lastName;
-    dataForm.email = email;
-    dataForm.phone_number = phoneNumber;
-    dataForm.password = password;
-    dispatch(register(dataForm));
+    const dataForm = new FormData();
+    dataForm.append("first_name", firstName);
+    dataForm.append("last_name", lastName);
+    dataForm.append("email", email);
+    dataForm.append("phone_number", phoneNumber);
+    dataForm.append("gender", gender);
+    dataForm.append("image", image, image.name);
+    dispatch(updateUserProfile(dataForm));
   };
 
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirect);
+    if (!user || !user.email) {
+      dispatch(getUserDetails("profile"));
+    } else {
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setEmail(user.email);
+      setPhoneNumber(user.phone_number);
+      setGender(user.gender);
     }
-  }, [userInfo, navigate, redirect]);
+  }, [dispatch, user]);
   return (
     <Container className="mt-5">
+      <Row>
+        <Col md={12} className="text-center  mb-5">
+          {user.image ? (
+            <Image
+              src={`${process.env.REACT_APP_API_ENDPOINT}${user.image}`}
+              thumbnail
+              style={{ width: "90px", height: "90px" }}
+            />
+          ) : (
+            <Image src={userImage} thumbnail />
+          )}
+        </Col>
+      </Row>
       <Form onSubmit={submitHandler}>
         <Row>
           <Col className="col-md-3 offset-md-3">
@@ -108,26 +119,32 @@ function Register() {
           </Col>
         </Row>
         <Row>
-          <Col className="col-md-6 offset-md-3">
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type={passwordVisible ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                required={true}
-              />
-              <i
-                onClick={togglePassword}
-                className={`toggle-password fa ${
-                  eye ? "fa-eye-slash" : "fa-eye"
-                } password-view`}
-              ></i>
+          <Col className="col-md-3 offset-md-3">
+            <Form.Group className="mb-3" controlId="formGender">
+              <Form.Label>Gender</Form.Label>
+              <Form.Select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option>Select Gender</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+                <option value="r">Rather not say</option>
+              </Form.Select>
             </Form.Group>
-            <PasswordStrengthBar password={password} />
+          </Col>
+          <Col className="col-md-3">
+            <Form.Group className="mb-3" controlId="formMobile">
+              <Form.Label>Profile Pic</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={(event) => {
+                  setImage(event.target.files[0]);
+                }}
+              />
+            </Form.Group>
+          </Col>
+          <Col className="col-md-6 offset-md-3">
             <div className="d-grid gap-2">
               <Button
                 variant="dark"
@@ -137,23 +154,15 @@ function Register() {
                 {loading ? (
                   <Spinner animation="border" variant="secondary" />
                 ) : (
-                  "Register"
+                  "Update Profile"
                 )}
               </Button>
             </div>
           </Col>
         </Row>
       </Form>
-      <Row>
-        <Col className="col-md-4 offset-md-3 mt-2">
-          <LinkContainer className="text-dark" to="/login">
-            <Nav.Link>Already have an account?</Nav.Link>
-          </LinkContainer>
-        </Col>
-        <Col className="col-md-4 ms-5 mt-2"></Col>
-      </Row>
     </Container>
   );
 }
 
-export default Register;
+export default Profile;

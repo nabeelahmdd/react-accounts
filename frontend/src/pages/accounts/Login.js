@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/actions/userActions";
+import { login } from "../../redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 

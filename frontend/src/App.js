@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./ProtectedRoute";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Home from "./pages/accounts/Home";
+import Login from "./pages/accounts/Login";
 import Header from "./component/Header";
-import Register from "./pages/Register";
-import Profile from "./pages/Profile";
-import PasswordChange from "./pages/PasswordChange";
-import PasswordReset from "./pages/PasswordReset";
+import Register from "./pages/accounts/Register";
+import Profile from "./pages/accounts/Profile";
+import PasswordChange from "./pages/accounts/PasswordChange";
+import PasswordReset from "./pages/accounts/PasswordReset";
 
 function App() {
   return (
