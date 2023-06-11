@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
+import validator from "validator";
 
 function Register() {
   const location = useLocation();
@@ -30,6 +31,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [eye, setEye] = useState(true);
+  const [passwordError, setPasswordError] = useState(false);
 
   const togglePassword = () => {
     setPasswordVisible(!passwordVisible);
@@ -47,6 +49,21 @@ function Register() {
     dispatch(register(dataForm));
   };
 
+  const validatePassword = (event) => {
+    const password = event.target.value;
+    if (
+      validator.isStrongPassword(password, {
+        minLength: 9,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+      })
+    ) {
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
@@ -119,6 +136,7 @@ function Register() {
                   setPassword(e.target.value);
                 }}
                 required={true}
+                onKeyUp={validatePassword}
               />
               <i
                 onClick={togglePassword}
@@ -132,7 +150,7 @@ function Register() {
               <Button
                 variant="dark"
                 type="submit"
-                disabled={loading ? true : false}
+                disabled={loading || passwordError ? true : false}
               >
                 {loading ? (
                   <Spinner animation="border" variant="secondary" />

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changePasswordAction } from "../../redux/actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { PASSWORD_CHANGE_RESET } from "../../redux/constants/userConstants";
+import validator from "validator";
 
 function PasswordChange() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function PasswordChange() {
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [eyeOld, setOldEye] = useState(true);
   const [eyeNew, setEyeNew] = useState(true);
+  const [passwordError, setPasswordError] = useState(false);
 
   const toggleOldPassword = () => {
     setOldPasswordVisible(!oldPasswordVisible);
@@ -27,6 +29,22 @@ function PasswordChange() {
   const toggleNewPassword = () => {
     setNewPasswordVisible(!newPasswordVisible);
     setEyeNew(!eyeNew);
+  };
+
+  const validatePassword = (event) => {
+    const password = event.target.value;
+    if (
+      validator.isStrongPassword(password, {
+        minLength: 9,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+      })
+    ) {
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
   };
 
   const submitHandler = (e) => {
@@ -76,6 +94,7 @@ function PasswordChange() {
                 onChange={(e) => {
                   setNewPassword(e.target.value);
                 }}
+                onKeyUp={validatePassword}
                 required={true}
               />
               <i
@@ -92,7 +111,7 @@ function PasswordChange() {
                 variant="dark"
                 size="lg"
                 type="submit"
-                disabled={loading ? true : false}
+                disabled={loading || passwordError ? true : false}
               >
                 {loading ? (
                   <Spinner animation="border" variant="secondary" />

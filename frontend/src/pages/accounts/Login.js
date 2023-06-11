@@ -8,7 +8,6 @@ import {
   Spinner,
   Nav,
 } from "react-bootstrap";
-import PasswordStrengthBar from "react-password-strength-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/userActions";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -80,7 +79,6 @@ function Login() {
                 } password-view`}
               ></i>
             </Form.Group>
-            <PasswordStrengthBar password={password} />
 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Remember me" />

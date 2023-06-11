@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import PasswordStrengthBar from "react-password-strength-bar";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import validator from "validator";
 
 function PasswordConfirm() {
   const navigate = useNavigate();
@@ -10,12 +11,29 @@ function PasswordConfirm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [eye, setEye] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const token = window.location.search;
   const final = token.split("?token=");
 
   const togglePassword = () => {
     setPasswordVisible(!passwordVisible);
     setEye(!eye);
+  };
+
+  const validatePassword = (event) => {
+    const password = event.target.value;
+    if (
+      validator.isStrongPassword(password, {
+        minLength: 9,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+      })
+    ) {
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
   };
 
   const submitHandler = (e) => {
@@ -63,6 +81,7 @@ function PasswordConfirm() {
                   setPassword(e.target.value);
                 }}
                 required={true}
+                onKeyUp={validatePassword}
               />
               <i
                 onClick={togglePassword}
@@ -78,7 +97,7 @@ function PasswordConfirm() {
                 variant="dark"
                 size="lg"
                 type="submit"
-                disabled={loading ? true : false}
+                disabled={loading || passwordError ? true : false}
               >
                 {loading ? (
                   <Spinner animation="border" variant="secondary" />
