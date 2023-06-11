@@ -8,6 +8,7 @@ import Register from "./pages/accounts/Register";
 import Profile from "./pages/accounts/Profile";
 import PasswordChange from "./pages/accounts/PasswordChange";
 import PasswordReset from "./pages/accounts/PasswordReset";
+import PasswordConfirm from "./pages/accounts/PasswordConfirm";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/password-reset" element={<PasswordReset />} />
+        <Route path="/password-confirm-req" element={<PasswordConfirm />} />
         <Route
           path="/profile"
           element={
