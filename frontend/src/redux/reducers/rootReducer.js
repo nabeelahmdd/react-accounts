@@ -4,6 +4,7 @@ import {
   userRegisterReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
+  passwordCHangeReducer,
 } from "./userReducers";
 
 const rootReducer = combineReducers({
@@ -11,5 +12,6 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userPasswordCHange: passwordCHangeReducer,
 });
 export default rootReducer;

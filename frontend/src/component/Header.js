@@ -1,6 +1,4 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../redux/actions/userActions";
@@ -34,10 +32,22 @@ function Header() {
           <Nav>
             {userInfo ? (
               <>
-                <LinkContainer to="/profile">
-                  <Nav.Link>My Account</Nav.Link>
-                </LinkContainer>
-                <Nav.Link onClick={logutHandler}>Logout</Nav.Link>
+                <NavDropdown title="My Account" id="basic-nav-dropdown">
+                  <LinkContainer to="/change-password">
+                    <NavDropdown.Item href="#action/3.1">
+                      Change Password
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item href="#action/3.2">
+                      Profile
+                    </NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
               </>
             ) : (
               <>

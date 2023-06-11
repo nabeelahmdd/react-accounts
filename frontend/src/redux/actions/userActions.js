@@ -15,6 +15,9 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_RESET,
+  PASSWORD_CHANGE_REQUEST,
+  PASSWORD_CHANGE_SUCCESS,
+  PASSWORD_CHANGE_FAIL,
 } from "../constants/userConstants";
 import { toast } from "react-toastify";
 import { getErrors } from "../../helpers/reduxHelper";
@@ -176,3 +179,43 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     toast.error(errorMessage);
   }
 };
+
+export const changePasswordAction =
+  (dataForm) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PASSWORD_CHANGE_REQUEST,
+      });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_API_ENDPOINT}/custom/accounts/change-password/`,
+        dataForm,
+        config
+      );
+
+      dispatch({
+        type: PASSWORD_CHANGE_SUCCESS,
+        payload: data,
+      });
+
+      toast.success("Password Change Successfully!");
+    } catch (error) {
+      let errorMessage = getErrors(error);
+      dispatch({
+        type: PASSWORD_CHANGE_FAIL,
+        payload: errorMessage,
+      });
+      toast.error(errorMessage);
+    }
+  };

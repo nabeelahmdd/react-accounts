@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Header from "./component/Header";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import PasswordChange from "./pages/PasswordChange";
 
 function App() {
   return (
@@ -20,6 +21,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <PasswordChange />
             </ProtectedRoute>
           }
         />
