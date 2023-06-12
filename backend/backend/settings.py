@@ -49,11 +49,13 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
     'django_rest_passwordreset',
+    'parler',
 
 ]
 
 LOCAL_APPS = [
     'custom',
+    'blog',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -199,3 +201,14 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_HOST_ADDRESS = env('EMAIL_HOST_ADDRESS')
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en',},
+        {'code': 'hi',},
+    ),
+    'default': {
+        'fallbacks': ['en'],
+        'hide_untranslated': False,   # Default
+    }
+}
